@@ -16,8 +16,8 @@ Job.init({
             'Đã thay thế',
             'Đã cập nhật hệ thống',
             'Hoàn thiện hồ sơ',
-            'Xúc xả thành công',
-            'Xúc xả thất bại'
+            'Kiểm tra thành công',
+            'Chuyển thanh tra'
         ),
         allowNull: false,
     },

@@ -29,7 +29,7 @@ const recordErrorMeter = async (req, res, next) => {
         const job = await Job.create(errorForm)
 
         if (job) {
-            await JobHistory.create({ job_id: job.job_id, status: 'Mới', task_type: 'Ghi thu', responsible_user_id: responsible_user_id })
+            await JobHistory.create({ job_id: job.job_id, status: 'Mới', task_type: 'QL Mạng', responsible_user_id: responsible_user_id })
         }
 
         return res.status(201).json({
@@ -94,22 +94,22 @@ const handleflushing = async (req, res, next) => {
             })
         }
 
-        if (status === 'Xúc xả thất bại') {
+        if (status === 'Chuyển thanh tra') {
             await job.update({ status: 'Chờ Thanh tra', task_type: 'Thanh tra', responsible_user_id: responsible_user_id })
             await JobHistory.create({ job_id: job.job_id, status: 'Chờ Thanh tra', task_type: 'Thanh tra', responsible_user_id: responsible_user_id })
             return res.status(200).json({
                 EC: 0,
-                EM: "Xúc xả thất bại",
+                EM: "Chuyển thanh tra",
                 DT: job
             })
         }
 
-        if (status === 'Xúc xả thành công') {
+        if (status === 'Kiểm tra thành công') {
             await job.update({ status: status, task_type: 'QL Mạng', responsible_user_id: responsible_user_id })
-            await JobHistory.create({ job_id: job.job_id, status: 'Xúc xả thành công', task_type: 'QL Mạng', responsible_user_id: responsible_user_id })
+            await JobHistory.create({ job_id: job.job_id, status: 'Kiểm tra thành công', task_type: 'QL Mạng', responsible_user_id: responsible_user_id })
             return res.status(200).json({
                 EC: 0,
-                EM: "Xúc xả thành công",
+                EM: "Kiểm tra thành công",
                 DT: job
             })
         }
@@ -268,7 +268,7 @@ const getJobHistory = async (req, res, next) => {
 
 const getJobChartData = async (req, res) => {
     try {
-        const completedStatuses = ['Xúc xả thành công', 'Hoàn thiện hồ sơ'];
+        const completedStatuses = ['Kiểm tra thành công', 'Hoàn thiện hồ sơ'];
 
         // 1. Tổng số công việc
         const totalJobs = await Job.count();
